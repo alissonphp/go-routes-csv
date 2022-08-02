@@ -22,7 +22,7 @@ func (s *RouteService) Get(from string, to string) (RouteInterface, error) {
 
 }
 
-func (s *RouteService) Create(from string, to string, price float64) (RouteInterface, error) {
+func (s *RouteService) Create(from string, to string, price int) (RouteInterface, error) {
 	route := NewRoute()
 	route.From = from
 	route.To = to

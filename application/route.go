@@ -3,12 +3,12 @@ package application
 type RouteInterface interface {
 	GetFrom() string
 	GetTo() string
-	GetPrice() float64
+	GetPrice() int
 }
 
 type RouteServiceInterface interface {
-	Create(from string, to string, price float64) (RouteInterface, error)
-	SearchBest(from string, to string) (string, error)
+	Create(from string, to string, price int) (RouteInterface, error)
+	SearchBest(from string, to string) (BestRoute, error)
 }
 
 type RouteReader interface {
@@ -27,9 +27,14 @@ type RoutePersistenceInterface interface {
 }
 
 type Route struct {
-	From  string  `json:"from"`
-	To    string  `json:"to"`
-	Price float64 `json:"price"`
+	From  string `json:"from"`
+	To    string `json:"to"`
+	Price int    `json:"price"`
+}
+
+type BestRoute struct {
+	FlyPath   string `json:"fly_path"`
+	TotalCost int    `json:"total_cost"`
 }
 
 func NewRoute() *Route {
@@ -45,6 +50,6 @@ func (r *Route) GetTo() string {
 	return r.To
 }
 
-func (r *Route) GetPrice() float64 {
+func (r *Route) GetPrice() int {
 	return r.Price
 }

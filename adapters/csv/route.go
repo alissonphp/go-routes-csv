@@ -21,13 +21,13 @@ func (r *RoutesCSV) ReadAll() ([]application.Route, error) {
 
 	reader, err := csv.NewReader(f).ReadAll()
 	if err != nil {
-		return []application.Route{}, err
+		return nil, err
 	}
 
 	var routes []application.Route
 
 	for _, line := range reader {
-		s, err := strconv.ParseFloat(line[2], 64)
+		s, err := strconv.Atoi(line[2])
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -41,4 +41,19 @@ func (r *RoutesCSV) ReadAll() ([]application.Route, error) {
 	}
 
 	return routes, err
+}
+
+func (r *RoutesCSV) Save(route application.RouteInterface) (application.RouteInterface, error) {
+	f, err := os.OpenFile("input-routes.csv", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	defer f.Close()
+	if err != nil {
+		return nil, err
+	}
+	w := csv.NewWriter(f)
+	w.Write([]string{
+		route.GetFrom(), route.GetTo(), strconv.Itoa(route.GetPrice()),
+	})
+	w.Flush()
+
+	return route, nil
 }
