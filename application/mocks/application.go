@@ -167,6 +167,21 @@ func (mr *MockRouteReaderMockRecorder) Get(from, to interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockRouteReader)(nil).Get), from, to)
 }
 
+// List mocks base method.
+func (m *MockRouteReader) List() ([]application.RouteInterface, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "List")
+	ret0, _ := ret[0].([]application.RouteInterface)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// List indicates an expected call of List.
+func (mr *MockRouteReaderMockRecorder) List() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockRouteReader)(nil).List))
+}
+
 // MockRouteWriter is a mock of RouteWriter interface.
 type MockRouteWriter struct {
 	ctrl     *gomock.Controller
@@ -241,6 +256,21 @@ func (m *MockRoutePersistenceInterface) Get(from, to string) (application.RouteI
 func (mr *MockRoutePersistenceInterfaceMockRecorder) Get(from, to interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockRoutePersistenceInterface)(nil).Get), from, to)
+}
+
+// List mocks base method.
+func (m *MockRoutePersistenceInterface) List() ([]application.RouteInterface, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "List")
+	ret0, _ := ret[0].([]application.RouteInterface)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// List indicates an expected call of List.
+func (mr *MockRoutePersistenceInterfaceMockRecorder) List() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockRoutePersistenceInterface)(nil).List))
 }
 
 // Save mocks base method.

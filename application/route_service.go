@@ -4,6 +4,15 @@ type RouteService struct {
 	Persistence RoutePersistenceInterface
 }
 
+func (s *RouteService) List() ([]RouteInterface, error) {
+	routes, err := s.Persistence.List()
+	if err != nil {
+		return nil, err
+	}
+
+	return routes, nil
+}
+
 func (s *RouteService) Get(from string, to string) (RouteInterface, error) {
 	route, err := s.Persistence.Get(from, to)
 	if err != nil {

@@ -12,6 +12,7 @@ type RouteServiceInterface interface {
 }
 
 type RouteReader interface {
+	List() ([]RouteInterface, error)
 	Get(from string, to string) (RouteInterface, error)
 }
 

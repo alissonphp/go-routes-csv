@@ -8,6 +8,28 @@ import (
 	"testing"
 )
 
+func TestRouteService_List(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	var routes []application.RouteInterface
+
+	route1 := mock_application.NewMockRouteInterface(ctrl)
+	route2 := mock_application.NewMockRouteInterface(ctrl)
+
+	routes = append(routes, route1, route2)
+	persistence := mock_application.NewMockRoutePersistenceInterface(ctrl)
+	persistence.EXPECT().List().Return(routes, nil).AnyTimes()
+
+	service := application.RouteService{
+		Persistence: persistence,
+	}
+
+	res, err := service.List()
+	require.Nil(t, err)
+	require.Equal(t, routes, res)
+}
+
 func TestRouteService_Get(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
