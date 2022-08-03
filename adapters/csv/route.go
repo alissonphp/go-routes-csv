@@ -9,10 +9,20 @@ import (
 )
 
 type RoutesCSV struct {
+	csvFile string
 }
 
-func (r *RoutesCSV) ReadAll() ([]application.Route, error) {
-	f, err := os.Open("input-routes.csv")
+func NewReadCsvFile(path string) *RoutesCSV {
+	return &RoutesCSV{csvFile: path}
+}
+
+func (r *RoutesCSV) Get(from string, to string) (application.RouteInterface, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (r *RoutesCSV) List() ([]application.RouteInterface, error) {
+	f, err := os.Open(r.csvFile)
 	if err != nil {
 		return nil, err
 	}
@@ -24,7 +34,7 @@ func (r *RoutesCSV) ReadAll() ([]application.Route, error) {
 		return nil, err
 	}
 
-	var routes []application.Route
+	var routes []application.RouteInterface
 
 	for _, line := range reader {
 		s, err := strconv.Atoi(line[2])
@@ -37,14 +47,14 @@ func (r *RoutesCSV) ReadAll() ([]application.Route, error) {
 			Price: s,
 		}
 
-		routes = append(routes, route)
+		routes = append(routes, &route)
 	}
 
 	return routes, err
 }
 
 func (r *RoutesCSV) Save(route application.RouteInterface) (application.RouteInterface, error) {
-	f, err := os.OpenFile("input-routes.csv", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	f, err := os.OpenFile(r.csvFile, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 	defer f.Close()
 	if err != nil {
 		return nil, err

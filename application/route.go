@@ -7,7 +7,7 @@ type RouteInterface interface {
 }
 
 type RouteServiceInterface interface {
-	Create(from string, to string, price int) (RouteInterface, error)
+	Save(from string, to string, price int) (RouteInterface, error)
 	SearchBest(from string, to string) (BestRoute, error)
 }
 
@@ -52,4 +52,12 @@ func (r *Route) GetTo() string {
 
 func (r *Route) GetPrice() int {
 	return r.Price
+}
+
+func (b *BestRoute) GetFlyPath() string {
+	return b.FlyPath
+}
+
+func (b *BestRoute) GetTotalCost() int {
+	return b.TotalCost
 }
