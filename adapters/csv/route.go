@@ -21,7 +21,7 @@ func (r *RoutesCSV) Get(from string, to string) (application.RouteInterface, err
 	panic("implement me")
 }
 
-func (r *RoutesCSV) List() ([]application.RouteInterface, error) {
+func (r *RoutesCSV) List() ([]application.Route, error) {
 	f, err := os.Open(r.csvFile)
 	if err != nil {
 		return nil, err
@@ -34,7 +34,7 @@ func (r *RoutesCSV) List() ([]application.RouteInterface, error) {
 		return nil, err
 	}
 
-	var routes []application.RouteInterface
+	var routes []application.Route
 
 	for _, line := range reader {
 		s, err := strconv.Atoi(line[2])
@@ -47,7 +47,7 @@ func (r *RoutesCSV) List() ([]application.RouteInterface, error) {
 			Price: s,
 		}
 
-		routes = append(routes, &route)
+		routes = append(routes, route)
 	}
 
 	return routes, err
