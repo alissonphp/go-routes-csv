@@ -26,7 +26,7 @@ func createRoute(service application.RouteServiceInterface) http.Handler {
 			return
 		}
 
-		route, err := service.Create(createRouteDto.From, createRouteDto.To, createRouteDto.Price)
+		route, err := service.Save(createRouteDto.From, createRouteDto.To, createRouteDto.Price)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write(jsonError(err.Error()))

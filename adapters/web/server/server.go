@@ -6,6 +6,7 @@ import (
 	"go-best-route/application"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -17,15 +18,16 @@ func MakeNewWebserver() *Webserver {
 	return &Webserver{}
 }
 
-func (w Webserver) Server() {
+func (w Webserver) Serve() {
 	r := mux.NewRouter()
 	handler.SetRouteHandlers(r, w.Service)
 	http.Handle("/", r)
 	server := &http.Server{
 		ReadHeaderTimeout: 10 * time.Second,
 		WriteTimeout:      10 * time.Second,
-		Addr:              ":9000",
+		Addr:              ":8080",
 		Handler:           http.DefaultServeMux,
+		ErrorLog:          log.New(os.Stderr, "log:", log.Lshortfile),
 	}
 
 	err := server.ListenAndServe()
