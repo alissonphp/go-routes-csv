@@ -1,6 +1,9 @@
 package application
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 type RouteService struct {
 	Persistence RoutePersistenceInterface
@@ -53,40 +56,38 @@ func (s *RouteService) SearchBest(from string, to string) (BestRoute, error) {
 		}
 	}
 
-	bs := s.checkPath(possibilities)
-	fmt.Println(bs)
-
-	// implementar a regra de negócio para encontrar a melhor rota aqui
-	best := BestRoute{FlyPath: "OOASD-ASD-D-ASD-", TotalCost: 90}
-	return best, nil
+	bs := s.checkPath(possibilities, to)
+	sort.Sort(ByCost(bs))
+	return bs[0], nil
 }
 
-func (s *RouteService) checkPath(routes []Route) []BestRoute {
+func (s *RouteService) checkPath(routes []Route, final string) []BestRoute {
 	var bests []BestRoute
 	for _, route := range routes {
 		b := BestRoute{
-			FlyPath: fmt.Sprintf("%s-%s", route.GetFrom(), route.GetTo()),
+			FlyPath:   fmt.Sprintf("%s-%s", route.GetFrom(), route.GetTo()),
+			TotalCost: route.GetPrice(),
 		}
-		c := s.searchInRoutes(route.GetTo())
-		if c.From != "" {
-			b.FlyPath = fmt.Sprintf("%s-%s", b.GetFlyPath(), c.GetTo())
-			b.TotalCost = b.GetTotalCost() + c.GetPrice()
-		}
+
+		s.getNextPoint(&b, route.GetTo(), final)
 
 		bests = append(bests, b)
-
 	}
 
 	return bests
 }
 
-func (s *RouteService) searchInRoutes(from string) Route {
+func (s *RouteService) getNextPoint(path *BestRoute, next string, final string) {
 	routes, _ := s.List()
-	var r Route
 	for _, route := range routes {
-		if route.GetFrom() == from {
-			r = route
+		if route.GetFrom() == next {
+			path.FlyPath = fmt.Sprintf("%s-%s", path.GetFlyPath(), route.GetTo())
+			path.TotalCost = path.GetTotalCost() + route.GetPrice()
+			if route.GetTo() != final {
+				s.getNextPoint(path, route.GetTo(), final)
+			} else {
+				return
+			}
 		}
 	}
-	return r
 }

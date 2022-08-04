@@ -37,6 +37,20 @@ type BestRoute struct {
 	TotalCost int    `json:"total_cost"`
 }
 
+type ByCost []BestRoute
+
+func (c ByCost) Len() int {
+	return len(c)
+}
+
+func (c ByCost) Less(i, j int) bool {
+	return c[i].GetTotalCost() < c[j].GetTotalCost()
+}
+
+func (c ByCost) Swap(i, j int) {
+	c[i], c[j] = c[j], c[i]
+}
+
 func NewRoute() *Route {
 	route := Route{}
 	return &route

@@ -10,7 +10,7 @@ import (
 
 func SetRouteHandlers(r *mux.Router, service application.RouteServiceInterface) {
 	r.Handle("/routes", createRoute(service)).Methods("POST", "OPTIONS")
-	r.Handle("/best/{from}/{to}", bestRoute(service)).Methods("GET", "OPTIONS")
+	r.Handle("/routes/cheapest", bestRoute(service)).Queries("from", "{from}").Queries("to", "{to}").Methods("GET", "OPTIONS")
 }
 
 func createRoute(service application.RouteServiceInterface) http.Handler {
@@ -45,9 +45,8 @@ func createRoute(service application.RouteServiceInterface) http.Handler {
 func bestRoute(service application.RouteServiceInterface) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		vars := mux.Vars(r)
-		from := vars["from"]
-		to := vars["to"]
+		from := r.FormValue("from")
+		to := r.FormValue("to")
 		best, err := service.SearchBest(from, to)
 		if err != nil {
 			w.WriteHeader(http.StatusNotFound)
