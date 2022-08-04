@@ -3,8 +3,8 @@ version: "3"
 services:
   app:
     build: .
-    container_name: go-best-route
+    container_name: myway-app
     ports:
-      - "9000:9000"
+      - "8080:8080"
     volumes:
       - .:/go/src/
