@@ -17,6 +17,20 @@ O serviço deve avaliar a viagem do solicitante, buscando o caminho mais barato 
     - csv - define como o core fará persistências no arquivo fonte dos dados
     - dto - estrutura de comunicação (dado) entre serviço e aplicação
     - web - define a forma de interação pelo serviço web (API Rest)
+- Estrutura de diretórios:
+```shell
+├── adapters
+│   ├── cli
+│   ├── csv
+│   ├── dto
+│   └── web
+│       ├── handler
+│       └── server
+├── application
+│   └── mocks
+├── cmd
+└── docs
+```
 
 ## Rodando a aplicação
 
