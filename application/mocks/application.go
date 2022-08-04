@@ -49,10 +49,10 @@ func (mr *MockRouteInterfaceMockRecorder) GetFrom() *gomock.Call {
 }
 
 // GetPrice mocks base method.
-func (m *MockRouteInterface) GetPrice() float64 {
+func (m *MockRouteInterface) GetPrice() int {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPrice")
-	ret0, _ := ret[0].(float64)
+	ret0, _ := ret[0].(int)
 	return ret0
 }
 
@@ -99,26 +99,26 @@ func (m *MockRouteServiceInterface) EXPECT() *MockRouteServiceInterfaceMockRecor
 	return m.recorder
 }
 
-// Create mocks base method.
-func (m *MockRouteServiceInterface) Create(from, to string, price float64) (application.RouteInterface, error) {
+// Save mocks base method.
+func (m *MockRouteServiceInterface) Save(from, to string, price int) (application.RouteInterface, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", from, to, price)
+	ret := m.ctrl.Call(m, "Save", from, to, price)
 	ret0, _ := ret[0].(application.RouteInterface)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// Create indicates an expected call of Create.
-func (mr *MockRouteServiceInterfaceMockRecorder) Create(from, to, price interface{}) *gomock.Call {
+// Save indicates an expected call of Save.
+func (mr *MockRouteServiceInterfaceMockRecorder) Save(from, to, price interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRouteServiceInterface)(nil).Create), from, to, price)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockRouteServiceInterface)(nil).Save), from, to, price)
 }
 
 // SearchBest mocks base method.
-func (m *MockRouteServiceInterface) SearchBest(from, to string) (string, error) {
+func (m *MockRouteServiceInterface) SearchBest(from, to string) (application.BestRoute, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SearchBest", from, to)
-	ret0, _ := ret[0].(string)
+	ret0, _ := ret[0].(application.BestRoute)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -168,10 +168,10 @@ func (mr *MockRouteReaderMockRecorder) Get(from, to interface{}) *gomock.Call {
 }
 
 // List mocks base method.
-func (m *MockRouteReader) List() ([]application.RouteInterface, error) {
+func (m *MockRouteReader) List() ([]application.Route, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "List")
-	ret0, _ := ret[0].([]application.RouteInterface)
+	ret0, _ := ret[0].([]application.Route)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -259,10 +259,10 @@ func (mr *MockRoutePersistenceInterfaceMockRecorder) Get(from, to interface{}) *
 }
 
 // List mocks base method.
-func (m *MockRoutePersistenceInterface) List() ([]application.RouteInterface, error) {
+func (m *MockRoutePersistenceInterface) List() ([]application.Route, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "List")
-	ret0, _ := ret[0].([]application.RouteInterface)
+	ret0, _ := ret[0].([]application.Route)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

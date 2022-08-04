@@ -85,3 +85,5 @@ A resposta deve ser um objeto como o seguinte:
 	"total_cost": 40
 }
 ```
+
+É possível testar as rotas utilizando algum cliente como o Insomnia ou Postman. Basta importar o [arquivo de coleções](./docs/Insomnia_2022-08-04.json) que está disponível no repositório.

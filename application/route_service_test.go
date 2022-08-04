@@ -8,27 +8,27 @@ import (
 	"testing"
 )
 
-//func TestRouteService_List(t *testing.T) {
-//	ctrl := gomock.NewController(t)
-//	defer ctrl.Finish()
-//
-//	var routes []application.RouteInterface
-//
-//	route1 := mock_application.NewMockRouteInterface(ctrl)
-//	route2 := mock_application.NewMockRouteInterface(ctrl)
-//
-//	routes = append(routes, &route1, &route2)
-//	persistence := mock_application.NewMockRoutePersistenceInterface(ctrl)
-//	persistence.EXPECT().List().Return(routes, nil).AnyTimes()
-//
-//	service := application.RouteService{
-//		Persistence: persistence,
-//	}
-//
-//	res, err := service.List()
-//	require.Nil(t, err)
-//	require.Equal(t, routes, res)
-//}
+func TestRouteService_List(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	var routes []application.Route
+
+	r1 := application.Route{From: "GRU", To: "FOR", Price: 10}
+	r2 := application.Route{From: "FOR", To: "STC", Price: 20}
+
+	routes = append(routes, r1, r2)
+	persistence := mock_application.NewMockRoutePersistenceInterface(ctrl)
+	persistence.EXPECT().List().Return(routes, nil).AnyTimes()
+
+	service := application.RouteService{
+		Persistence: persistence,
+	}
+
+	res, err := service.List()
+	require.Nil(t, err)
+	require.Equal(t, routes, res)
+}
 
 func TestRouteService_Get(t *testing.T) {
 	ctrl := gomock.NewController(t)
@@ -62,4 +62,31 @@ func TestRouteService_Save(t *testing.T) {
 	res, err := service.Save("FOR", "BSB", 10)
 	require.Nil(t, err)
 	require.Equal(t, route, res)
+}
+
+func TestRouteService_SearchBest(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	b := application.BestRoute{
+		FlyPath:   "GRU-FOR-STC",
+		TotalCost: 30,
+	}
+	r1 := application.Route{From: "GRU", To: "FOR", Price: 10}
+	r2 := application.Route{From: "FOR", To: "STC", Price: 20}
+
+	var routes []application.Route
+	routes = append(routes, r1, r2)
+
+	persistence := mock_application.NewMockRoutePersistenceInterface(ctrl)
+	persistence.EXPECT().List().Return(routes, nil).AnyTimes()
+	s := mock_application.NewMockRouteServiceInterface(ctrl)
+	s.EXPECT().SearchBest(gomock.Any(), gomock.Any()).Return(b, nil).AnyTimes()
+
+	service := application.RouteService{Persistence: persistence}
+	res, err := service.SearchBest("GRU", "STC")
+	require.Nil(t, err)
+	require.Equal(t, b.GetFlyPath(), res.GetFlyPath())
+	require.Equal(t, b.GetTotalCost(), res.GetTotalCost())
+
 }
